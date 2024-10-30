@@ -1,16 +1,7 @@
 name: Build Wheels, Test and Release
 
-on:
-  push:
-    branches:
-      - master
-      - 'buildwheels*'
+on: workflow_dispatch
 
-    tags:
-      - 'v*'
-      - 'buildwheels*'
-
-  pull_request:
 
 jobs:
   build_linux_wheels:
