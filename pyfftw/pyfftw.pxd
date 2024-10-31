@@ -371,6 +371,44 @@ cdef extern from 'fftw3.h':
     void fftwf_forget_wisdom()
     void fftwl_forget_wisdom()
 
+    # const char fftw_version[]
+    # const char fftwf_version[]
+    # const char fftwl_version[]
+
+    # const char fftw_cc[]
+    # const char fftwf_cc[]
+    # const char fftwl_cc[]
+
+    # const char fftw_codelet_optim[]
+    # const char fftwf_codelet_optim[]
+    # const char fftwl_codelet_optim[]
+
+    double FFTW_NO_TIMELIMIT
+
+cdef extern from 'fftw3.h':
+    """
+    #if defined(_WIN32) || defined(MS_WINDOWS) || defined(_MSC_VER)
+    #define fftw_version ""
+    #define fftwf_version ""
+    #define fftwl_version ""
+    #define fftw_cc ""
+    #define fftwf_cc ""
+    #define fftwl_cc ""
+    #define fftw_codelet_optim ""
+    #define fftwf_codelet_optim ""
+    #define fftwl_codelet_optim ""
+    #else
+    #define fftw_version fftw_version
+    #define fftwf_version fftwf_version
+    #define fftwl_version fftwl_version
+    #define fftw_cc fftw_cc
+    #define fftwf_cc fftwf_cc
+    #define fftwl_cc fftwl_cc
+    #define fftw_codelet_optim fftw_codelet_optim
+    #define fftwf_codelet_optim fftwf_codelet_optim
+    #define fftwl_codelet_optim fftwl_codelet_optim
+    #endif
+    """
     const char fftw_version[]
     const char fftwf_version[]
     const char fftwl_version[]
@@ -382,8 +420,6 @@ cdef extern from 'fftw3.h':
     const char fftw_codelet_optim[]
     const char fftwf_codelet_optim[]
     const char fftwl_codelet_optim[]
-
-    double FFTW_NO_TIMELIMIT
 
 # Define function pointers that can act as a placeholder
 # for whichever dtype is used (the problem being that fftw
