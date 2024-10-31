@@ -98,6 +98,9 @@ cdef extern from 'fftw3.h':
     #define fftw_import_wisdom_from_string(wisdom) (0)
     #define fftw_forget_wisdom() ((void)0)
     #define fftw_set_timelimit(...) ((void)0)
+    #define fftw_version ""
+    #define fftw_cc ""
+    #define fftw_codelet_optim ""
     #endif
 
     #if !PYFFTW_HAVE_SINGLE
@@ -115,6 +118,9 @@ cdef extern from 'fftw3.h':
     #define fftwf_import_wisdom_from_string(wisdom) (0)
     #define fftwf_forget_wisdom() ((void)0)
     #define fftwf_set_timelimit(...) ((void)0)
+    #define fftwf_version ""
+    #define fftwf_cc ""
+    #define fftwf_codelet_optim ""
     #endif
 
     #if !PYFFTW_HAVE_LONG
@@ -132,6 +138,9 @@ cdef extern from 'fftw3.h':
     #define fftwl_import_wisdom_from_string(wisdom) (0)
     #define fftwl_forget_wisdom() ((void)0)
     #define fftwl_set_timelimit(...) ((void)0)
+    #define fftwl_version ""
+    #define fftwl_cc ""
+    #define fftwl_codelet_optim ""
     #endif
 
     #if !PYFFTW_HAVE_DOUBLE_MULTITHREADING
@@ -150,6 +159,25 @@ cdef extern from 'fftw3.h':
     #define fftwl_cleanup_threads() ((void)0)
     #define fftwl_init_threads() ((void)0)
     #define fftwl_plan_with_nthreads(...) ((void)0)
+    #endif
+
+    /* FFTW Windows' DLL (as of 3.3.5) doesn't export these symbols */
+    #if defined(_WIN32) || defined(MS_WINDOWS) || defined(_MSC_VER)
+    #if PYFFTW_HAVE_DOUBLE
+    #define fftw_version ""
+    #define fftw_cc ""
+    #define fftw_codelet_optim ""
+    #endif
+    #if PYFFTW_HAVE_SINGLE
+    #define fftwf_version ""
+    #define fftwf_cc ""
+    #define fftwf_codelet_optim ""
+    #endif
+    #if PYFFTW_HAVE_LONG
+    #define fftwl_version ""
+    #define fftwl_cc ""
+    #define fftwl_codelet_optim ""
+    #endif
     #endif
     """
 
@@ -371,44 +399,6 @@ cdef extern from 'fftw3.h':
     void fftwf_forget_wisdom()
     void fftwl_forget_wisdom()
 
-    # const char fftw_version[]
-    # const char fftwf_version[]
-    # const char fftwl_version[]
-
-    # const char fftw_cc[]
-    # const char fftwf_cc[]
-    # const char fftwl_cc[]
-
-    # const char fftw_codelet_optim[]
-    # const char fftwf_codelet_optim[]
-    # const char fftwl_codelet_optim[]
-
-    double FFTW_NO_TIMELIMIT
-
-cdef extern from 'fftw3.h':
-    """
-    #if defined(_WIN32) || defined(MS_WINDOWS) || defined(_MSC_VER)
-    #define fftw_version ""
-    #define fftwf_version ""
-    #define fftwl_version ""
-    #define fftw_cc ""
-    #define fftwf_cc ""
-    #define fftwl_cc ""
-    #define fftw_codelet_optim ""
-    #define fftwf_codelet_optim ""
-    #define fftwl_codelet_optim ""
-    #else
-    #define fftw_version fftw_version
-    #define fftwf_version fftwf_version
-    #define fftwl_version fftwl_version
-    #define fftw_cc fftw_cc
-    #define fftwf_cc fftwf_cc
-    #define fftwl_cc fftwl_cc
-    #define fftw_codelet_optim fftw_codelet_optim
-    #define fftwf_codelet_optim fftwf_codelet_optim
-    #define fftwl_codelet_optim fftwl_codelet_optim
-    #endif
-    """
     const char fftw_version[]
     const char fftwf_version[]
     const char fftwl_version[]
@@ -420,6 +410,8 @@ cdef extern from 'fftw3.h':
     const char fftw_codelet_optim[]
     const char fftwf_codelet_optim[]
     const char fftwl_codelet_optim[]
+
+    double FFTW_NO_TIMELIMIT
 
 # Define function pointers that can act as a placeholder
 # for whichever dtype is used (the problem being that fftw
